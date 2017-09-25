@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package sanoJavaLauncher;
-
+ 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
