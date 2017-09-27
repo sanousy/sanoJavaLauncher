@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package sanoJavaLauncher;
- 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -90,7 +90,7 @@ public class launcher extends javax.swing.JDialog {
             img = ImageIO.read(ClassLoader.getSystemResource("sanoJavaLauncher/res/application.jpg"));
             icons.put("application", toIcon(img, 35, 40));
             img = ImageIO.read(ClassLoader.getSystemResource("sanoJavaLauncher/res/folder.jpg"));
-            icons.put("folder", toIcon(img, 50,40));
+            icons.put("folder", toIcon(img, 50, 40));
             img = ImageIO.read(ClassLoader.getSystemResource("sanoJavaLauncher/res/web-page.png"));
             icons.put("webpage", toIcon(img, 50, 40));
         } catch (IOException ex) {
@@ -269,12 +269,14 @@ public class launcher extends javax.swing.JDialog {
     }//GEN-LAST:event_formFocusGained
 
     void shower() {
+        realign();
         this.setSize(mySize);
         this.setLocation(screenSize.width - mySize.width, 0);
         this.setOpacity(((float) (1)));
     }
 
     void hider() {
+        realign();
         this.setSize(activeSpotSize, activeSpotSize);
         this.setLocation(screenSize.width - 10, 0);
         this.setOpacity(((float) (0.01)));
