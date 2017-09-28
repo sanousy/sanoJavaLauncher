@@ -13,6 +13,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,6 +38,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileSystemView;
@@ -56,6 +59,12 @@ public class launcher extends javax.swing.JDialog {
     Dimension screenSize = null;
     Dimension mySize = null;
     boolean keep = false;
+    int delay = 1000; //milliseconds
+    ActionListener taskPerformer = (ActionEvent evt) -> {
+        realign();
+    };
+
+    Timer t = new Timer(delay, taskPerformer);
 
     Map<Object, Icon> icons = null;
 
@@ -99,6 +108,7 @@ public class launcher extends javax.swing.JDialog {
 
         ((MyListRenderer) jList1.getCellRenderer()).icons = icons;
         realign();
+        t.start();
     }
 
     void realign() {
@@ -137,6 +147,14 @@ public class launcher extends javax.swing.JDialog {
         return ic;
     }
 
+    void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,15 +184,10 @@ public class launcher extends javax.swing.JDialog {
         setResizable(false);
         setSize(new java.awt.Dimension(400, 300));
         setType(java.awt.Window.Type.POPUP);
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                formFocusLost(evt);
-            }
-        });
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -261,13 +274,9 @@ public class launcher extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jList1MouseExited
 
-    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-        realign();
-    }//GEN-LAST:event_formFocusLost
-
-    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        realign();
-    }//GEN-LAST:event_formFocusGained
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+//        realign();
+    }//GEN-LAST:event_formWindowActivated
 
     void shower() {
         realign();
@@ -280,6 +289,7 @@ public class launcher extends javax.swing.JDialog {
         if (keep) {
             return;
         }
+        //wait(300);
         realign();
         this.setSize(activeSpotSize, activeSpotSize);
         this.setLocation(screenSize.width - 10, 0);
