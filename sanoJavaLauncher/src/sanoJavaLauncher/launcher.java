@@ -43,7 +43,6 @@ import javax.swing.plaf.metal.MetalIconFactory;
 import sano.Node;
 import sano.RSML;
 import sano.TextFile;
-import sun.awt.shell.ShellFolder;
 
 /**
  *
@@ -56,6 +55,7 @@ public class launcher extends javax.swing.JDialog {
      */
     Dimension screenSize = null;
     Dimension mySize = null;
+    boolean keep = false;
 
     Map<Object, Icon> icons = null;
 
@@ -115,7 +115,7 @@ public class launcher extends javax.swing.JDialog {
             Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
         //this.setState(java.awt.Frame.ICONIFIED);
-
+/*
         try {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
@@ -127,7 +127,8 @@ public class launcher extends javax.swing.JDialog {
         } catch (InterruptedException ex) {
             Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //hider();
+        // shower();
+        //hider();*/
     }
 
     ImageIcon toIcon(Image img, int w, int h) {
@@ -276,6 +277,9 @@ public class launcher extends javax.swing.JDialog {
     }
 
     void hider() {
+        if (keep) {
+            return;
+        }
         realign();
         this.setSize(activeSpotSize, activeSpotSize);
         this.setLocation(screenSize.width - 10, 0);
@@ -284,10 +288,16 @@ public class launcher extends javax.swing.JDialog {
 
     void hiding(java.awt.event.KeyEvent evt) {
         char c = (char) evt.getKeyChar();
-        if ('x' == c) {
+        if ('x' == c || 'X' == c) {
             this.dispose();
-        } else if ('r' == c) {
+        } else if ('r' == c || 'R' == c) {
             loadList();
+        } else if ('s' == c || 'S' == c) {
+            shower();
+        } else if ('h' == c || 'H' == c) {
+            hider();
+        } else if ('k' == c || 'K' == c) {
+            keep = !keep;
         } else if ((int) evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
             hider();
         }
@@ -492,7 +502,7 @@ class MyListRenderer extends DefaultListCellRenderer {
         return (this);
     }
 
-    static ImageIcon getImage(File file) {
+    /*   static ImageIcon getImage(File file) {
         try {
             ImageIcon systemIcon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
             java.awt.Image image = systemIcon.getImage();
@@ -534,5 +544,5 @@ class MyListRenderer extends DefaultListCellRenderer {
         g.dispose();
         return resized;
     }
-
+     */
 }
