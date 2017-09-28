@@ -85,19 +85,14 @@ public class launcher extends javax.swing.JDialog {
             Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
-        //this.setLocationRelativeTo(null);
-        // getContentPane().setBackground(new Color(-16776961));
-        // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setOpacity((float) 1);
         setFocusable(true);
-        //setFocusableWindowState(false);
         jList1.setCellRenderer(new MyListRenderer());
         ((MyListRenderer) jList1.getCellRenderer()).types = types;
         ((MyListRenderer) jList1.getCellRenderer()).links = links;
 
         icons = new HashMap<Object, Icon>();
         Image img = null;
-        int sz = 30;
         try {
             img = ImageIO.read(ClassLoader.getSystemResource("sanoJavaLauncher/res/application.jpg"));
             icons.put("application", toIcon(img, 35, 40));
@@ -126,34 +121,12 @@ public class launcher extends javax.swing.JDialog {
         if (hidden) {
             this.setSize(myHiddenSize);
             this.setLocation(screenSize.width - 10, 0);
-            // this.setAlwaysOnTop(true);
-
+            this.setOpacity(((float) (0.01)));
         } else {
             this.setSize(mySize);
             this.setLocation(screenSize.width - mySize.width, 0);
-            //   this.setAlwaysOnTop(true);
-
+            this.setOpacity(1);
         }
-        /*   try {
-            Thread.sleep(300);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        //this.setState(java.awt.Frame.ICONIFIED);
-/*
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // this.setState(java.awt.Frame.NORMAL);
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // shower();
-        //hider();*/
     }
 
     ImageIcon toIcon(Image img, int w, int h) {
@@ -295,78 +268,10 @@ public class launcher extends javax.swing.JDialog {
     }//GEN-LAST:event_jList1MouseExited
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-//        realign();
     }//GEN-LAST:event_formWindowActivated
 
     private void jList1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseMoved
-        // TODO add your handling code here:
     }//GEN-LAST:event_jList1MouseMoved
-
-    void shower() {
-        hidden = false;
-        realign();
-        this.setSize(mySize);
-        this.setLocation(screenSize.width - mySize.width, 0);
-        this.setOpacity(((float) (1)));
-    }
-
-    void hider() {
-        if (keep) {
-            return;
-        }
-        hidden = true;
-        //wait(300);
-        realign();
-        this.setSize(activeSpotSize, activeSpotSize);
-        this.setLocation(screenSize.width - 10, 0);
-        this.setOpacity(((float) (0.01)));
-    }
-
-    void hiding(java.awt.event.KeyEvent evt) {
-        char c = (char) evt.getKeyChar();
-        if ('x' == c || 'X' == c) {
-            this.dispose();
-        } else if ('r' == c || 'R' == c) {
-            loadList();
-        } else if ('s' == c || 'S' == c) {
-            shower();
-        } else if ('h' == c || 'H' == c) {
-            hider();
-        } else if ('k' == c || 'K' == c) {
-            keep = !keep;
-        } else if ((int) evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
-            hider();
-        }
-    }
-
-    void runIt() {
-        String path = links.get(jList1.getSelectedIndex());
-        String type = types.get(jList1.getSelectedIndex());
-        switch (type) {
-
-            case "a":
-                try {
-
-                    Runtime.getRuntime().exec(path);
-                } catch (IOException ex) {
-                }
-                break;
-            case "f":
-                try {
-                    Runtime.getRuntime().exec("explorer.exe " + path);
-                } catch (IOException ex) {
-                }
-                break;
-            case "w":
-                try {
-                    Desktop.getDesktop().browse(new URL(path).toURI());
-                } catch (Exception e) {
-                    //e.printStackTrace();
-                }
-
-                break;
-        }
-    }
 
     /**
      * @param args the command line arguments
@@ -415,6 +320,65 @@ List<String> l = null;
     String desktopPath = System.getProperty("user.home");
 //System.out.print(desktopPath.replace("\\", "/"));
 
+    void shower() {
+        hidden = false;
+        realign();
+    }
+
+    void hider() {
+        if (keep) {
+            return;
+        }
+        hidden = true;
+        realign();
+    }
+
+    void hiding(java.awt.event.KeyEvent evt) {
+        char c = (char) evt.getKeyChar();
+        if ('x' == c || 'X' == c) {
+            this.dispose();
+        } else if ('r' == c || 'R' == c) {
+            loadList();
+        } else if ('s' == c || 'S' == c) {
+            shower();
+        } else if ('h' == c || 'H' == c) {
+            hider();
+        } else if ('k' == c || 'K' == c) {
+            keep = !keep;
+        } else if ((int) evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            hider();
+        }
+    }
+
+    void runIt() {
+        String path = links.get(jList1.getSelectedIndex());
+        String type = types.get(jList1.getSelectedIndex());
+        switch (type) {
+
+            case "a":
+                try {
+
+                    Runtime.getRuntime().exec(path);
+                } catch (IOException ex) {
+                }
+                break;
+            case "f":
+                try {
+                    Runtime.getRuntime().exec("explorer.exe " + path);
+                } catch (IOException ex) {
+                }
+                break;
+            case "w":
+                try {
+                    Desktop.getDesktop().browse(new URL(path).toURI());
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                }
+
+                break;
+        }
+    }
+
     void loadList() {
         //   System.out.println("started");
         TextFile t = null;
@@ -432,29 +396,11 @@ List<String> l = null;
                 links.add(n.getAttributeByName(n, "path").toString());
                 textx.add(n.getAttributeByName(n, "text").toString());
             }
-            /*   // t = new TextFile(desktopPath + "\\links.rsml", TextFile.Type.READ);
-            l = t.readAllLines();
-            for (int i = 0; i < l.size(); i++) {
-                String s = l.get(i);
-                System.out.println(s);
-                String[] d = s.split(";");
-                //    System.out.println(d[0] + "&&&&" + d[1]);
-
-                if (d.length >= 3) {
-                    textx.add(d[1]);
-
-                    types.add(d[0]);
-                    links.add(d[2]);
-                    //   System.out.println(links.get(i));
-                } 
-
-            }*/
             String[] text = new String[textx.size()];
             text = textx.toArray(text);
             jList1.setListData(text);
 
         } catch (IOException ex) {
-            //Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -473,7 +419,6 @@ List<String> l = null;
 }
 
 class MyListRenderer extends DefaultListCellRenderer {
-    // private HashMap theChosen = new HashMap();
 
     public List<String> types = null;
     public List<String> links = null;
@@ -492,7 +437,6 @@ class MyListRenderer extends DefaultListCellRenderer {
         Icon icon = null;
         String s = links.get(index);
         File file = new File(s);
-        // sun.awt.shell.ShellFolder sf;
         switch (types.get(index)) {
             case "t":
                 setBackground(Color.gray);
@@ -511,21 +455,9 @@ class MyListRenderer extends DefaultListCellRenderer {
             case "a":
                 setForeground(Color.black);
                  {
-                    //  icon = icons.get("application");
-                    // icon = FileSystemView.getFileSystemView().getSystemIcon(file);
-                    // if (icon == null) {
                     icon = icons.get("application");
-                    //F }
                 }
 
-                /*  try {
-                    sf = sun.awt.shell.ShellFolder.getShellFolder(file);
-                    icon = new ImageIcon(sf.getIcon(true));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MyListRenderer.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-//final javax.swing.JFileChooser fc = new javax.swing.JFileChooser(); 
-//icon = fc.getUI().getFileView(fc).getIcon(file);
                 break;
             default:
                 setForeground(Color.gray);
@@ -538,47 +470,4 @@ class MyListRenderer extends DefaultListCellRenderer {
         return (this);
     }
 
-    /*   static ImageIcon getImage(File file) {
-        try {
-            ImageIcon systemIcon = (ImageIcon) FileSystemView.getFileSystemView().getSystemIcon(file);
-            java.awt.Image image = systemIcon.getImage();
-            ImageIcon ic = new ImageIcon(image);
-            return ic;
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
-    private BufferedImage getImage2(final File pFile)
-            throws FileNotFoundException {
-        Image icon = ShellFolder.getShellFolder(pFile).getIcon(true);
-        BufferedImage im = new BufferedImage(icon.getWidth(null),
-                icon.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = im.createGraphics();
-        g.drawImage(icon, 0, 0, null);
-        g.dispose();
-        int width = im.getWidth();
-        int height = im.getHeight();
-        System.out.println(width);
-        System.out.println(height);
-        final int maxHeigh = 79;
-        double scaleValue = 0;
-        if (height > width) {
-            scaleValue = maxHeigh / height;
-        } else {
-            scaleValue = maxHeigh / width;
-        }
-        final int scaledWidth = (int) (im.getWidth() * scaleValue);
-        final int scaledHeigh = (int) (im.getHeight() * scaleValue);
-        BufferedImage resized = new BufferedImage(scaledWidth, scaledHeigh,
-                im.getType());
-        g = resized.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(im, 0, 0, scaledWidth, scaledHeigh, 0, 0, im.getWidth(),
-                im.getHeight(), null);
-        g.dispose();
-        return resized;
-    }
-     */
 }

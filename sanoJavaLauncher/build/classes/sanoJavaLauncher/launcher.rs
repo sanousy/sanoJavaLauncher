@@ -1,2 +1,0 @@
-sanoJavaLauncher.launcher
-sanoJavaLauncher.MyListRenderer
