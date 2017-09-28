@@ -58,7 +58,10 @@ public class launcher extends javax.swing.JDialog {
      */
     Dimension screenSize = null;
     Dimension mySize = null;
+    Dimension myHiddenSize = null;
+
     boolean keep = false;
+    boolean hidden = true;
     int delay = 1000; //milliseconds
     ActionListener taskPerformer = (ActionEvent evt) -> {
         realign();
@@ -116,14 +119,26 @@ public class launcher extends javax.swing.JDialog {
         mySize = new Dimension();
         mySize.height = screenSize.height;
         mySize.width = (int) (screenSize.width / 5) + 10;
-        this.setSize(mySize);
-        this.setLocation(screenSize.width - mySize.width, 0);
-        this.setAlwaysOnTop(true);
-        try {
+        myHiddenSize = new Dimension();
+        myHiddenSize.height = (int) (screenSize.height / 25);
+        myHiddenSize.width = (int) (screenSize.width / 25);
+
+        if (hidden) {
+            this.setSize(myHiddenSize);
+            this.setLocation(screenSize.width - 10, 0);
+            // this.setAlwaysOnTop(true);
+
+        } else {
+            this.setSize(mySize);
+            this.setLocation(screenSize.width - mySize.width, 0);
+            //   this.setAlwaysOnTop(true);
+
+        }
+        /*   try {
             Thread.sleep(300);
         } catch (InterruptedException ex) {
             Logger.getLogger(launcher.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         //this.setState(java.awt.Frame.ICONIFIED);
 /*
         try {
@@ -202,6 +217,11 @@ public class launcher extends javax.swing.JDialog {
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jList1.setSelectionBackground(new java.awt.Color(51, 255, 0));
+        jList1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jList1MouseMoved(evt);
+            }
+        });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
@@ -263,7 +283,7 @@ public class launcher extends javax.swing.JDialog {
     int activeSpotSize = 50;
     private void jList1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseEntered
 
-        if (evt.getXOnScreen() > screenSize.width - activeSpotSize && evt.getYOnScreen() < activeSpotSize) {
+        if (evt.getXOnScreen() > screenSize.width - myHiddenSize.width && evt.getYOnScreen() < myHiddenSize.width) {
             shower();
         }
     }//GEN-LAST:event_jList1MouseEntered
@@ -278,7 +298,12 @@ public class launcher extends javax.swing.JDialog {
 //        realign();
     }//GEN-LAST:event_formWindowActivated
 
+    private void jList1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jList1MouseMoved
+
     void shower() {
+        hidden = false;
         realign();
         this.setSize(mySize);
         this.setLocation(screenSize.width - mySize.width, 0);
@@ -289,6 +314,7 @@ public class launcher extends javax.swing.JDialog {
         if (keep) {
             return;
         }
+        hidden = true;
         //wait(300);
         realign();
         this.setSize(activeSpotSize, activeSpotSize);
