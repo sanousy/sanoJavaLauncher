@@ -1,0 +1,32 @@
+if you need to simply use the application, you need only to download the dist folder contents, and make a shortcut to run it :)
+
+a short cut must be mainly to java.exe not to the "sanoJavaLauncher.jar", but it should run it as per the below example:
+(this is inside the shortcut itshelf in Target field in the shortcut properties dialog box):
+
+E:\jdk-14.0.1\bin\javaw.exe -jar C:\Users\User\sanoJavaLauncher\dist\sanoJavaLauncher.jar
+
+for sure this applies to my machine setup for you assuming that your java runtime foler in c:\program files\java\bin
+and assuming that you saved only dist folder to C:\ (i.e. c:\dist)
+
+all what you need to do is to change the target of your shortcut to become:
+c:\program files\java\bin\java.exe -jar c:\dist\sanoJavaLauncher.jar
+
+Please tell me if you enjoyed this product, it is free, and guaranteed to be free forever (as I am alive at least) :)
+
+
+Limitations:
+Some limitations you might face on linux, because Java for linux does not support trasparency,
+so, you might see a small square at the top right corner of the screen, other than that it is expected to be fine.
+
+Please note that RSML file is saved on linux on your home folder (automatically detected), but if you have already your ownn links.rsml file
+you might copy and replace the automatic copy which is being created by the application if this file was not found on your home folder (same on windows).
+
+to be honest, I did not test it on Mac, because I have no Mac, so, if anyone helps me to check it on Mac, I would appreciate so much (may be Macs already have their 
+own beautiful launcher, but still maybe someone would like to use it there, because it is a different concept).
+
+
+Please share your opinion, and your enhancements ideas if any, it will be my pleasure to provide such a service to humanity, where I believe not everything is for money! 
+several things should be based on unconditional giving.
+
+Sincerely, 
+Sanousy.
